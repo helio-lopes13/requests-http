@@ -38,29 +38,31 @@ export class CursosFormComponent implements OnInit {
     //   }
     // );
 
-    this.route.params
-    .pipe(
-      map((params: any) => params['id']),
-      switchMap((id) => (this.service.loadById(id)))
-    ).subscribe((curso) => this.updateForm(curso));
+    // this.route.params
+    // .pipe(
+    //   map((params: any) => params['id']),
+    //   switchMap((id) => (this.service.loadById(id)))
+    // ).subscribe((curso) => this.updateForm(curso));
 
     // PARA CASOS DE CREATE, PUT E DELETE
     // concatMap -> a ordem da requisição importa
     // mergeMap -> a ordem da requisição não importa
     // exhaustMap -> casos de login    
 
+    const curso = this.route.snapshot.data['curso'];
+
     this.form = this.fb.group({
-      id: [null],
-      nome: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
+      id: [curso.id],
+      nome: [curso.nome, [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
     });
   }
 
-  updateForm(curso) {
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome
-    });
-  }
+  // updateForm(curso) {
+  //   this.form.patchValue({
+  //     id: curso.id,
+  //     nome: curso.nome
+  //   });
+  // }
 
   onSubmit() {
     this.submitted = true;
@@ -71,7 +73,7 @@ export class CursosFormComponent implements OnInit {
           this.modal.showAlertSuccess('Curso inserido com sucesso!');
           this.location.back();
         },
-        error => this.modal.showAlertDanger(error),
+        error => this.modal.showAlertDanger('Erro ao inserir curso.'),
         () => console.log('request completo')
       );
       console.log('Submit');
