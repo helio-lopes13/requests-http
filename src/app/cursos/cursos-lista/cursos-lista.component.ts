@@ -21,7 +21,7 @@ export class CursosListaComponent implements OnInit {
 
   constructor(
     private service: CursosService,
-    private modalService: BsModalService,
+    // private modalService: BsModalService,
     private alertService: AlertModalService
   ) { }
 
